@@ -1,0 +1,321 @@
+﻿(*********************************************
+
+  Import-Export
+  Version   := RSLogix 5000 v36.00
+  Owner     := , 
+  Exported  := Sat Apr 26 09:19:03 2025
+
+  Note:  File encoded in UTF-8.  Only edit file in a program 
+         which supports UTF-8 (like Notepad, not Wordpad).
+
+**********************************************)
+IE_VER := 2.27;
+
+CONTROLLER CPU_01 (Description := "CODE TESTING 20250421",
+                   ProcessorType := "Emulate 5570",
+                   Major := 36,
+                   TimeSlice := 20,
+                   ShareUnusedTimeSlice := 1,
+                   CommPath := "Backplane\2\Channel 0",
+                   RedundancyEnabled := 0,
+                   KeepTestEditsOnSwitchOver := 0,
+                   DataTablePadPercentage := 50,
+                   SecurityCode := 0,
+                   ChangesToDetect := 16#ffff_ffff_ffff_ffff,
+                   SFCExecutionControl := "CurrentActive",
+                   SFCRestartPosition := "MostRecent",
+                   SFCLastScan := "DontScan",
+                   SerialNumber := 16#7024_3ff1,
+                   MatchProjectToController := No,
+                   CanUseRPIFromProducer := No,
+                   InhibitAutomaticFirmwareUpdate := 0,
+                   PassThroughConfiguration := EnabledWithAppend,
+                   DownloadProjectDocumentationAndExtendedProperties := Yes,
+                   ReportMinorOverflow := 0)
+	DATATYPE IBN_Programming (FamilyType := NoFamily)
+		SINT ZZZZZZZZZZIBN_Progra0 (Hidden := 1);
+		BIT DEBUG ZZZZZZZZZZIBN_Progra0 : 0 (Description := "DEBUGGING");
+		BIT TODO ZZZZZZZZZZIBN_Progra0 : 1 (Description := "TODO");
+		BIT BYPASS ZZZZZZZZZZIBN_Progra0 : 2 (Description := "BYPASS - DONOT REMOVE");
+		BIT ALWAYS_OFF ZZZZZZZZZZIBN_Progra0 : 3 (Description := "ALWAY OFF");
+		BIT ALWAYS_ON ZZZZZZZZZZIBN_Progra0 : 4 (Description := "ALWAY ON");
+	END_DATATYPE
+
+	DATATYPE UDT_IBN_xxx (Description := "Programming Bits",
+	                      FamilyType := NoFamily)
+		SINT ZZZZZZZZZZUDT_IBN_xx0 (Hidden := 1);
+		BIT Debug ZZZZZZZZZZUDT_IBN_xx0 : 0;
+		BIT TODO ZZZZZZZZZZUDT_IBN_xx0 : 1;
+		BIT Always_OFF ZZZZZZZZZZUDT_IBN_xx0 : 2;
+		BIT Always_ON ZZZZZZZZZZUDT_IBN_xx0 : 3;
+		BIT ByPass ZZZZZZZZZZUDT_IBN_xx0 : 4;
+		DINT SerialNumber[25];
+	END_DATATYPE
+
+	MODULE Local (Parent := "Local",
+	              ParentModPortId := 1,
+	              CatalogNumber := "Emulate 5570",
+	              Vendor := 1,
+	              ProductType := 14,
+	              ProductCode := 53,
+	              Major := 36,
+	              Minor := 11,
+	              ChassisSize := 10,
+	              Slot := 2,
+	              Mode := 2#0000_0000_0000_0001,
+	              CompatibleModule := 0,
+	              KeyMask := 2#0000_0000_0001_1111)
+	END_MODULE
+
+	MODULE INPUTS (Parent := "Local",
+	               ParentModPortId := 1,
+	               CatalogNumber := "1756-MODULE",
+	               Vendor := 1,
+	               ProductType := 0,
+	               ProductCode := 15,
+	               Major := 1,
+	               Minor := 1,
+	               PortLabel := "RxBACKPLANE",
+	               Slot := 3,
+	               CommMethod := 536870913,
+	               ConfigMethod := 8388609,
+	               Mode := 2#0000_0000_0000_0000,
+	               CompatibleModule := 0,
+	               KeyMask := 2#0000_0000_0000_0000,
+	               PrimCxnInputSize := 8,
+	               PrimCxnOutputSize := 4,
+	               SecCxnInputSize := 0,
+	               SecCxnOutputSize := 0)
+			ConfigData  := [4,16,[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+		,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+		,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+		,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+		,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]];
+			CONNECTION Standard (Rate := 50000,
+			                     InputCxnPoint := 1,
+			                     InputSize := 8,
+			                     OutputCxnPoint := 2,
+			                     OutputSize := 4,
+			                     EventID := 0,
+			                     Unicast := Yes)
+					InputData  := [[0,1]];
+					OutputData  := [[0]];
+			END_CONNECTION
+
+	END_MODULE
+
+	MODULE OUTPUT (Parent := "Local",
+	               ParentModPortId := 1,
+	               CatalogNumber := "1756-MODULE",
+	               Vendor := 1,
+	               ProductType := 0,
+	               ProductCode := 15,
+	               Major := 1,
+	               Minor := 1,
+	               PortLabel := "RxBACKPLANE",
+	               Slot := 4,
+	               CommMethod := 536870913,
+	               ConfigMethod := 8388609,
+	               Mode := 2#0000_0000_0000_0000,
+	               CompatibleModule := 0,
+	               KeyMask := 2#0000_0000_0000_0000,
+	               PrimCxnInputSize := 8,
+	               PrimCxnOutputSize := 4,
+	               SecCxnInputSize := 0,
+	               SecCxnOutputSize := 0)
+			ConfigData  := [4,16,[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+		,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+		,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+		,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+		,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]];
+			CONNECTION Standard (Rate := 50000,
+			                     InputCxnPoint := 1,
+			                     InputSize := 8,
+			                     OutputCxnPoint := 2,
+			                     OutputSize := 4,
+			                     EventID := 0,
+			                     Unicast := Yes)
+					InputData  := [[0,0]];
+					OutputData  := [[0]];
+			END_CONNECTION
+
+	END_MODULE
+
+	TAG
+		DateTimeFromPLC : DINT[7] (COMMENT[0] := "Year",
+		            COMMENT[1] := "Month",
+		            COMMENT[2] := "Day",
+		            COMMENT[3] := "Hours",
+		            COMMENT[4] := "Minute",
+		            COMMENT[5] := "Seconds",
+		            COMMENT[6] := "Microseconds",
+		            RADIX := Decimal) := [2025,4,21,16,49,42,773920];
+		IBN_DHF : UDT_IBN_xxx (COMMENT.SERIALNUMBER := "INPUTS",
+		            COMMENT.SERIALNUMBER[0] := "OUTPUTS",
+		            COMMENT.SERIALNUMBER[0].0 := "001 - ADD: Trigger Bit",
+		            COMMENT.SERIALNUMBER[2].0 := "001 - Place Holder") := [1,[0,24,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]];
+		R6 : CONTROL[25]  := [[0,0,0],[0,0,0],[0,0,0],[-2147483648,4,3],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0
+				,0],[0,0,0]];
+		SterileWaterRinse_Array : DINT[2,20] (RADIX := Decimal) := [1,2,4,12,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+		SterileWaterRinse_Bits : DINT[8] (RADIX := Decimal) := [12,0,7,0,0,0,0,0];
+	END_TAG
+
+	PROGRAM MainProgram (MAIN := "R000_MainRoutine",
+	                     MODE := 0,
+	                     DisableFlag := 0,
+	                     UseAsFolder := 0)
+		TAG
+			FirstScan : BOOL (RADIX := Decimal) := 1;
+		END_TAG
+
+		ST_ROUTINE InformationAndHistory 
+			'(*****************************************************************************************************************
+			'PROJECT:	       	Augenstein 27049 Tub Feed
+			'ROUTINE:			InformationAndHistory	
+			'AUTHOR:				Esther Erickson
+			'CREATED:		    04.07.2007
+			'DESCRIPTION:		General information and revision history.
+			'INPUT PARAMETER:	None
+			'OUTPUT PARAMETER:   None
+			'
+			'*****************************************************************************************************************
+			'VERSION	       DATE           COMMENT/ CHANGED BY
+			'V0.00		04.22.2025		  IMS
+			'| DATE       | REMARKS     |
+			'| ---------- | ----------- |
+			'| 2025-04-22 | NEW PROJECT |
+			'*****************************************************************************************************************)
+			'
+			'
+			'
+		END_ST_ROUTINE
+
+		ROUTINE R000_MainRoutine 
+				N: XIC(S:FS)JSR(R001_InitializeConstants,0);
+				N: JSR(R002_General,0);
+				N: JSR(R040_ValveControl,0);
+		END_ROUTINE
+
+		ST_ROUTINE R001_InitializeConstants 
+			'// General information
+			'
+			'IBN_DHF.Always_OFF := 0;
+			'IBN_DHF.Always_ON := 1;
+		END_ST_ROUTINE
+
+		ROUTINE R002_General 
+				N: XIC(IBN_DHF.SerialNumber[0].0)GSV(WallClockTime,,LocalDateTime,DateTimeFromPLC[0]);
+		END_ROUTINE
+
+		ROUTINE R003_Template 
+				RC: "******************************************************************************************************************$N"
+				    "PROJECT:$T$T       Augenstein 45097 Tub Feed$N"
+				    "ROUTINE:$T$T$TR001_InitializeConstants$T$N"
+				    "AUTHOR:$T$T$TEsther Erickson/ Augenstein$N"
+				    "CREATED:$T$T       15.09.2015$N"
+				    "DESCRIPTION:$T$T Set constants for program, executed on first scan$N"
+				    "INPUT PARAMETER:$TNone$N"
+				    "OUTPUT PARAMETER:    None$N"
+				    "$N"
+				    "VERSION$T       DATE           COMMENT/ CHANGED BY$N"
+				    "V0.00$T$T04.07.2007$T$TCreated / EE$N"
+				    "V1.00$T$T15.09.2015$T$TCreated / EM$N"
+				    "******************************************************************************************************************$N"
+				    "$N"
+				    "Used for equations that need PI as opposed to typing the number.$N"
+				    "";
+				N: XIC(IBN_DHF.TODO)OTE(IBN_DHF.SerialNumber[2].0);
+				RC: "Defined flags";
+				N: OTU(IBN_DHF.Always_OFF)OTL(IBN_DHF.Always_ON);
+		END_ROUTINE
+
+		ROUTINE R040_ValveControl 
+				N: XIC(IBN_DHF.SerialNumber[0].0)OTE(IBN_DHF.SerialNumber[1].0);
+				N: XIC(IBN_DHF.SerialNumber[0].1)MOVE(1,R6[3].POS);
+				RC: "$N"
+				    "sequencer for sterile water rinse steps$N"
+				    "$N"
+				    "Last drain (step 3) is now 90sec. (was 60)$N"
+				    "Since the filler drain valve are pulsing with pressure DR5.2.2, mor time is needed to get empty";
+				N: XIC(IBN_DHF.Debug)[SQO(SterileWaterRinse_Array[0,0],-1,SterileWaterRinse_Bits[0],R6[3],?,?) ,SQO(SterileWaterRinse_Array[1,0],-1,SterileWaterRinse_Bits[1],R6[3],?,?) ];
+				N: XIC(SterileWaterRinse_Bits[0].0)OTE(IBN_DHF.SerialNumber[1].1);
+				N: XIC(SterileWaterRinse_Bits[0].1)OTE(IBN_DHF.SerialNumber[1].2);
+				N: XIC(SterileWaterRinse_Bits[0].2)OTE(IBN_DHF.SerialNumber[1].3);
+				N: XIC(SterileWaterRinse_Bits[0].3)OTE(IBN_DHF.SerialNumber[1].4);
+		END_ROUTINE
+
+		CHILD_PROGRAMS
+		END_CHILD_PROGRAMS
+
+	END_PROGRAM
+
+	TASK MainTask (Type := CONTINUOUS,
+	               Rate := 10,
+	               Priority := 10,
+	               Watchdog := 500,
+	               DisableUpdateOutputs := No,
+	               InhibitTask := No)
+			MainProgram;
+	END_TASK
+
+CONFIG ASCII(XONXOFFEnable := 0,
+	             DeleteMode := 0,
+	             EchoMode := 0,
+	             TerminationChars := 65293,
+	             AppendChars := 2573,
+	             BufferSize := 82) END_CONFIG
+
+CONFIG CST(SystemTimeMasterID := 0) END_CONFIG
+
+CONFIG DF1(DuplicateDetection := 1,
+	           ErrorDetection := BCC Error,
+	           EmbeddedResponseEnable := 0,
+	           DF1Mode := Pt to Pt,
+	           ACKTimeout := 50,
+	           NAKReceiveLimit := 3,
+	           ENQTransmitLimit := 3,
+	           TransmitRetries := 3,
+	           StationAddress := 0,
+	           ReplyMessageWait := 5,
+	           PollingMode := 1,
+	           MasterMessageTransmit := 0,
+	           NormalPollNodeFile := "<NA>",
+	           NormalPollGroupSize := 0,
+	           PriorityPollNodeFile := "<NA>",
+	           ActiveStationFile := "<NA>",
+	           SlavePollTimeout := 3000,
+	           EOTSuppression := 0,
+	           MaxStationAddress := 31,
+	           TokenHoldFactor := 1,
+	           EnableStoreFwd := 0,
+	           StoreFwdFile := "<NA>") END_CONFIG
+
+CONFIG SerialPort(BaudRate := 19200,
+	                  Parity := No Parity,
+	                  DataBits := 8 Bits of Data,
+	                  StopBits := 1 Stop Bit,
+	                  ComDriverId := DF1,
+	                  PendingComDriverId := DF1,
+	                  RTSOffDelay := 0,
+	                  RTSSendDelay := 0,
+	                  ControlLine := No Handshake,
+	                  PendingControlLine := No Handshake,
+	                  RemoteModeChangeFlag := 0,
+	                  PendingRemoteModeChangeFlag := 0,
+	                  ModeChangeAttentionChar := 27,
+	                  PendingModeChangeAttentionChar := 27,
+	                  SystemModeCharacter := 83,
+	                  PendingSystemModeCharacter := 83,
+	                  UserModeCharacter := 85,
+	                  PendingUserModeCharacter := 85,
+	                  DCDWaitDelay := 0) END_CONFIG
+
+CONFIG TimeSynchronize(Priority1 := 128,
+	                                 Priority2 := 128,
+	                                 PTPEnable := 1) END_CONFIG
+
+CONFIG WallClockTime(LocalTimeAdjustment := 0,
+	                     TimeZone := 0) END_CONFIG
+
+END_CONTROLLER
+

@@ -3,7 +3,7 @@
   Import-Export
   Version   := RSLogix 5000 v36.00
   Owner     := , 
-  Exported  := Sat Apr 26 09:19:03 2025
+  Exported  := Sun Apr 27 12:25:48 2025
 
   Note:  File encoded in UTF-8.  Only edit file in a program 
          which supports UTF-8 (like Notepad, not Wordpad).
@@ -12,14 +12,11 @@
 IE_VER := 2.27;
 
 CONTROLLER CPU_01 (Description := "CODE TESTING 20250421",
-                   ProcessorType := "Emulate 5570",
+                   ProcessorType := "1756-L85E",
                    Major := 36,
-                   TimeSlice := 20,
-                   ShareUnusedTimeSlice := 1,
-                   CommPath := "Backplane\2\Channel 0",
+                   CommPath := "EmulateEthernet\192.168.80.1",
                    RedundancyEnabled := 0,
                    KeepTestEditsOnSwitchOver := 0,
-                   DataTablePadPercentage := 50,
                    SecurityCode := 0,
                    ChangesToDetect := 16#ffff_ffff_ffff_ffff,
                    SFCExecutionControl := "CurrentActive",
@@ -31,7 +28,9 @@ CONTROLLER CPU_01 (Description := "CODE TESTING 20250421",
                    InhibitAutomaticFirmwareUpdate := 0,
                    PassThroughConfiguration := EnabledWithAppend,
                    DownloadProjectDocumentationAndExtendedProperties := Yes,
-                   ReportMinorOverflow := 0)
+                   ReportMinorOverflow := 1,
+                   AutoDiagsEnabled := 0,
+                   WebServerEnabled := 0)
 	DATATYPE IBN_Programming (FamilyType := NoFamily)
 		SINT ZZZZZZZZZZIBN_Progra0 (Hidden := 1);
 		BIT DEBUG ZZZZZZZZZZIBN_Progra0 : 0 (Description := "DEBUGGING");
@@ -39,32 +38,38 @@ CONTROLLER CPU_01 (Description := "CODE TESTING 20250421",
 		BIT BYPASS ZZZZZZZZZZIBN_Progra0 : 2 (Description := "BYPASS - DONOT REMOVE");
 		BIT ALWAYS_OFF ZZZZZZZZZZIBN_Progra0 : 3 (Description := "ALWAY OFF");
 		BIT ALWAYS_ON ZZZZZZZZZZIBN_Progra0 : 4 (Description := "ALWAY ON");
+		DINT OUTPUTS[25] (Description := "TEST BIT OUTPUTS");
+		DINT SERIAL_NUMBER[25] (Description := "OPEN ISSUES");
 	END_DATATYPE
 
-	DATATYPE UDT_IBN_xxx (Description := "Programming Bits",
-	                      FamilyType := NoFamily)
-		SINT ZZZZZZZZZZUDT_IBN_xx0 (Hidden := 1);
-		BIT Debug ZZZZZZZZZZUDT_IBN_xx0 : 0;
-		BIT TODO ZZZZZZZZZZUDT_IBN_xx0 : 1;
-		BIT Always_OFF ZZZZZZZZZZUDT_IBN_xx0 : 2;
-		BIT Always_ON ZZZZZZZZZZUDT_IBN_xx0 : 3;
-		BIT ByPass ZZZZZZZZZZUDT_IBN_xx0 : 4;
-		DINT SerialNumber[25];
+	DATATYPE UDT_FiveStepMethod (FamilyType := NoFamily)
+		SINT ZZZZZZZZZZUDT_FiveSt0 (Hidden := 1);
+		BIT TriggerPrecodition ZZZZZZZZZZUDT_FiveSt0 : 0;
+		BIT Safe ZZZZZZZZZZUDT_FiveSt0 : 1;
+		BIT Command ZZZZZZZZZZUDT_FiveSt0 : 2;
+		BIT InPosition ZZZZZZZZZZUDT_FiveSt0 : 3;
+		BIT TimeOutFault ZZZZZZZZZZUDT_FiveSt0 : 4;
+	END_DATATYPE
+
+	DATATYPE UDT_Missions (FamilyType := NoFamily)
+		DINT Missions;
+		DINT Start;
+		DINT Done;
 	END_DATATYPE
 
 	MODULE Local (Parent := "Local",
 	              ParentModPortId := 1,
-	              CatalogNumber := "Emulate 5570",
+	              CatalogNumber := "1756-L85E",
 	              Vendor := 1,
 	              ProductType := 14,
-	              ProductCode := 53,
+	              ProductCode := 168,
 	              Major := 36,
 	              Minor := 11,
 	              ChassisSize := 10,
 	              Slot := 2,
 	              Mode := 2#0000_0000_0000_0001,
 	              CompatibleModule := 0,
-	              KeyMask := 2#0000_0000_0001_1111)
+	              KeyMask := 2#0000_0000_0000_0000)
 	END_MODULE
 
 	MODULE INPUTS (Parent := "Local",
@@ -98,7 +103,7 @@ CONTROLLER CPU_01 (Description := "CODE TESTING 20250421",
 			                     OutputSize := 4,
 			                     EventID := 0,
 			                     Unicast := Yes)
-					InputData  := [[0,1]];
+					InputData  := [[-1,1]];
 					OutputData  := [[0]];
 			END_CONNECTION
 
@@ -135,11 +140,160 @@ CONTROLLER CPU_01 (Description := "CODE TESTING 20250421",
 			                     OutputSize := 4,
 			                     EventID := 0,
 			                     Unicast := Yes)
-					InputData  := [[0,0]];
+					InputData  := [[-1,0]];
 					OutputData  := [[0]];
 			END_CONNECTION
 
 	END_MODULE
+
+	ADD_ON_INSTRUCTION_DEFINITION AOI_Flasher (Revision := "1.0",
+	                                           ExecutePrescan := No,
+	                                           ExecutePostscan := No,
+	                                           ExecuteEnableInFalse := No,
+	                                           CreatedDate := "2025-04-27T14:45:33.451Z",
+	                                           CreatedBy := "BOOK-6RVU0P0AVL\df125",
+	                                           EditedDate := "2025-04-27T15:02:55.130Z",
+	                                           EditedBy := "BOOK-6RVU0P0AVL\df125",
+	                                           SoftwareRevision := "v36.00")
+		PARAMETERS
+			EnableIn : BOOL (Description := "Enable Input - System Defined Parameter",
+			                    Usage := Input,
+			                    RADIX := Decimal,
+			                    Required := No,
+			                    Visible := No,
+			                    ExternalAccess := Read Only);
+			EnableOut : BOOL (Description := "Enable Output - System Defined Parameter",
+			                     Usage := Output,
+			                     RADIX := Decimal,
+			                     Required := No,
+			                     Visible := No,
+			                     ExternalAccess := Read Only);
+			Output : BOOL (Usage := Output,
+			                  RADIX := Decimal,
+			                  Required := Yes,
+			                  Visible := Yes,
+			                  ExternalAccess := None,
+			                  DefaultData := 0);
+			TimerPreset_2 : DINT (Usage := Input,
+			                         RADIX := Decimal,
+			                         Required := Yes,
+			                         Visible := Yes,
+			                         ExternalAccess := None,
+			                         DefaultData := 0);
+			TimerPreset_1 : DINT (Usage := Input,
+			                         RADIX := Decimal,
+			                         Required := Yes,
+			                         Visible := Yes,
+			                         ExternalAccess := None,
+			                         DefaultData := 0);
+		END_PARAMETERS
+
+		LOCAL_TAGS
+			Timer : TIMER[2] (ExternalAccess := None,
+			                DefaultData := "[[0,0,0],[0,0,0]]");
+		END_LOCAL_TAGS
+
+		ROUTINE Logic 
+				N: [MOVE(TimerPreset_1,Timer[0].PRE) ,MOVE(TimerPreset_2,Timer[1].PRE) ];
+				RC: "Timer 1$N"
+				    "";
+				N: XIO(Timer[1].DN)TON(Timer[0],?,?);
+				RC: "Timer 2$N"
+				    "$N"
+				    "";
+				N: XIC(Timer[0].DN)TON(Timer[1],?,?);
+				N: XIC(Timer[0].DN)OTE(Output);
+		END_ROUTINE
+
+	END_ADD_ON_INSTRUCTION_DEFINITION
+
+	ADD_ON_INSTRUCTION_DEFINITION AOI_Flasher_01 (Revision := "1.0",
+	                                              ExecutePrescan := No,
+	                                              ExecutePostscan := No,
+	                                              ExecuteEnableInFalse := No,
+	                                              CreatedDate := "2025-04-27T15:19:09.478Z",
+	                                              CreatedBy := "BOOK-6RVU0P0AVL\df125",
+	                                              EditedDate := "2025-04-27T15:49:13.162Z",
+	                                              EditedBy := "BOOK-6RVU0P0AVL\df125",
+	                                              SoftwareRevision := "v36.00")
+		PARAMETERS
+			EnableIn : BOOL (Description := "Enable Input - System Defined Parameter",
+			                    Usage := Input,
+			                    RADIX := Decimal,
+			                    Required := No,
+			                    Visible := No,
+			                    ExternalAccess := Read Only);
+			EnableOut : BOOL (Description := "Enable Output - System Defined Parameter",
+			                     Usage := Output,
+			                     RADIX := Decimal,
+			                     Required := No,
+			                     Visible := No,
+			                     ExternalAccess := Read Only);
+			FLASHER_500ms_Led : BOOL (Usage := Output,
+			                             RADIX := Decimal,
+			                             Required := Yes,
+			                             Visible := Yes,
+			                             ExternalAccess := Read Only,
+			                             DefaultData := 0);
+		END_PARAMETERS
+
+		LOCAL_TAGS
+			FLASHER_500ms : FBD_TIMER (ExternalAccess := None,
+			                        DefaultData := "[1,0,0,0,0,0,0,0,0,4,0,0]");
+		END_LOCAL_TAGS
+
+		ST_ROUTINE Logic 
+			'(* Declare Timer and Tag Variables *)
+			'IF NOT FLASHER_500ms.DN THEN	
+			'	FLASHER_500ms.PRE := 1000;
+			'	FLASHER_500ms.EN := 1;
+			'	tonr(FLASHER_500ms);
+			'	
+			'END_IF;
+			'
+			'IF FLASHER_500ms.ACC >= 1000 THEN
+			'    FLASHER_500ms_Led := 1;
+			'ELSE
+			'    FLASHER_500ms_Led := 0;
+			'END_IF;
+			'
+			'
+		END_ST_ROUTINE
+
+	END_ADD_ON_INSTRUCTION_DEFINITION
+
+	ADD_ON_INSTRUCTION_DEFINITION AO_HANDLE_COMMAND_PANEL_BUTTONS_HARDWARE (Revision := "1.0",
+	                                                                        ExecutePrescan := No,
+	                                                                        ExecutePostscan := No,
+	                                                                        ExecuteEnableInFalse := No,
+	                                                                        CreatedDate := "2025-04-27T11:09:33.266Z",
+	                                                                        CreatedBy := "BOOK-6RVU0P0AVL\df125",
+	                                                                        EditedDate := "2025-04-27T11:09:33.284Z",
+	                                                                        EditedBy := "BOOK-6RVU0P0AVL\df125",
+	                                                                        SoftwareRevision := "v36.00")
+		PARAMETERS
+			EnableIn : BOOL (Description := "Enable Input - System Defined Parameter",
+			                    Usage := Input,
+			                    RADIX := Decimal,
+			                    Required := No,
+			                    Visible := No,
+			                    ExternalAccess := Read Only);
+			EnableOut : BOOL (Description := "Enable Output - System Defined Parameter",
+			                     Usage := Output,
+			                     RADIX := Decimal,
+			                     Required := No,
+			                     Visible := No,
+			                     ExternalAccess := Read Only);
+		END_PARAMETERS
+
+		LOCAL_TAGS
+		END_LOCAL_TAGS
+
+		ST_ROUTINE Logic 
+			'
+		END_ST_ROUTINE
+
+	END_ADD_ON_INSTRUCTION_DEFINITION
 
 	TAG
 		DateTimeFromPLC : DINT[7] (COMMENT[0] := "Year",
@@ -150,15 +304,159 @@ CONTROLLER CPU_01 (Description := "CODE TESTING 20250421",
 		            COMMENT[5] := "Seconds",
 		            COMMENT[6] := "Microseconds",
 		            RADIX := Decimal) := [2025,4,21,16,49,42,773920];
-		IBN_DHF : UDT_IBN_xxx (COMMENT.SERIALNUMBER := "INPUTS",
-		            COMMENT.SERIALNUMBER[0] := "OUTPUTS",
-		            COMMENT.SERIALNUMBER[0].0 := "001 - ADD: Trigger Bit",
-		            COMMENT.SERIALNUMBER[2].0 := "001 - Place Holder") := [1,[0,24,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]];
-		R6 : CONTROL[25]  := [[0,0,0],[0,0,0],[0,0,0],[-2147483648,4,3],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0
-				,0],[0,0,0]];
+		IBN_DHF : IBN_Programming (COMMENT.OUTPUTS[0].0 := "000: Spare",
+		            COMMENT.OUTPUTS[0].1 := "001: Basic Flasher bit",
+		            COMMENT.SERIAL_NUMBER[0].0 := "001: Timer not working",
+		            COMMENT.SERIAL_NUMBER[0].1 := "002: Create a trigger for getting the time") := [16,[2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,24,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]];
+		R6 : CONTROL[25]  := [[0,0,0],[0,0,0],[0,0,0],[0,4,3],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0]];
 		SterileWaterRinse_Array : DINT[2,20] (RADIX := Decimal) := [1,2,4,12,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
 		SterileWaterRinse_Bits : DINT[8] (RADIX := Decimal) := [12,0,7,0,0,0,0,0];
 	END_TAG
+
+	PROGRAM AlarmManagement (MAIN := "R000_MainRouting",
+	                         MODE := 0,
+	                         DisableFlag := 0,
+	                         UseAsFolder := 0)
+		TAG
+			AlarmMessage : BOOL[64] (COMMENT[0] := "1000: Motor overload tripped",
+			            COMMENT[1] := "1001: Pump over tempature",
+			            RADIX := Decimal) := [2#1,2#0,2#1,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0
+					,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0
+					,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0];
+			AlarmTimers : TIMER[16]  := [[-1608512736,5000,5000],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0]];
+			AlarmTrigger : BOOL[64] (RADIX := Decimal) := [2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0
+					,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0
+					,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0];
+			Messages : BOOL[64] (RADIX := Decimal) := [2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0
+					,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0
+					,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0];
+			MotorOverLoad : BOOL (RADIX := Decimal) := 0;
+			MotorStart : BOOL (RADIX := Decimal) := 1;
+			PumpTemperature : DINT (RADIX := Decimal) := 0;
+		END_TAG
+
+		ST_ROUTINE R000_MainRouting 
+			'// Blocks
+			'jsr(R020_AlarmManagement);
+			'
+		END_ST_ROUTINE
+
+		ROUTINE R020_AlarmManagement 
+				RC: "Basic alarm logic$N"
+				    "";
+				N: NOP();
+				N: XIC(MotorStart)XIO(MotorOverLoad)OTE(AlarmMessage[0]);
+				N: EQ(PumpTemperature,100)OTE(AlarmMessage[1]);
+				RC: "Alarm with message and faul - Motor not running";
+				N: XIC(MotorStart)XIO(MotorOverLoad)[TON(AlarmTimers[0],?,?) ,XIO(AlarmTimers[0].DN) OTE(Messages[0]) ,XIC(AlarmTimers[0].DN) OTE(AlarmMessage[2]) ];
+		END_ROUTINE
+
+		CHILD_PROGRAMS
+		END_CHILD_PROGRAMS
+
+	END_PROGRAM
+
+	PROGRAM DesignPatters (MAIN := "R000_MainRoutine",
+	                       MODE := 0,
+	                       DisableFlag := 0,
+	                       UseAsFolder := 0)
+		TAG
+			AutoMode : BOOL (RADIX := Decimal) := 0;
+			AutoModePB : BOOL (RADIX := Decimal) := 0;
+			Command : BOOL (RADIX := Decimal) := 0;
+			EStopOK : BOOL (RADIX := Decimal) := 0;
+			FaultTimeOut : BOOL (RADIX := Decimal) := 0;
+			FaultTimer : TIMER  := [0,1000,0];
+			FaultTimerReset : BOOL (RADIX := Decimal) := 0;
+			Flasher1 : BOOL (RADIX := Decimal) := 0;
+			Flasher_10 : AOI_Flasher_01  := [0,[0,8,1000,0,0,0,0,0,0,2,0,8]];
+			Flasher_1_sec : BOOL (RADIX := Decimal) := 1;
+			Flasher_5000hz : AOI_Flasher  := [7,500,500,[[-1608512728,500,500],[-1071641816,500,260]]];
+			FromSeqLogic : BOOL (RADIX := Decimal) := 0;
+			InPosition : BOOL (RADIX := Decimal) := 0;
+			LED : BOOL (RADIX := Decimal) := 1;
+			LED_2 : BOOL (RADIX := Decimal) := 0;
+			ManualMode : BOOL (RADIX := Decimal) := 1;
+			ManualModePB : BOOL (RADIX := Decimal) := 0;
+			MissionsDone : DINT (Description := "Mssions complete",
+			            COMMENT.1 := "Mission 1 done",
+			            RADIX := Decimal) := 0;
+			MissionsStart : DINT (Description := "Mssions complete",
+			            COMMENT.1 := "Mission 1 done",
+			            RADIX := Decimal) := 0;
+			Mode : DINT (RADIX := Decimal) := 1;
+			ModePB : DINT (RADIX := Decimal) := 1;
+			PushButton : BOOL (RADIX := Decimal) := 0;
+			Safe : BOOL (RADIX := Decimal) := 0;
+			Sensor : BOOL (RADIX := Decimal) := 0;
+			TimeOutFault : BOOL (RADIX := Decimal) := 0;
+			TON_Flasher_1_sec : TIMER  := [-1071641822,2000,1754];
+			TriggerPrecondition : BOOL (RADIX := Decimal) := 0;
+			ValveMissions : UDT_Missions (COMMENT.MISSIONS.0 := "No mission",
+			            COMMENT.MISSIONS.1 := "Mission 1",
+			            COMMENT.MISSIONS.2 := "Mission 2") := [1,0,0];
+		END_TAG
+
+		ROUTINE R000_MainRoutine 
+				N: JSR(R010_Genral,0);
+				N: JSR(R020_FiveStepMethod,0);
+				N: JSR(R021_MissionStatement,0);
+				N: JSR(R022_Mode,0);
+				N: JSR(R023_Mode,0);
+				N: XIC(IBN_DHF.SERIAL_NUMBER[0].0)[AOI_Flasher_01(Flasher_10,LED_2) ,XIC(LED_2) OTE(IBN_DHF.OUTPUTS[0].0) ];
+		END_ROUTINE
+
+		ROUTINE R010_Genral 
+				RC: "Basic functions";
+				N: NOP();
+				RC: "PLC restart$N"
+				    "";
+				N: NOP();
+				RC: "Flasher - 500 ms";
+				N: AOI_Flasher(Flasher_5000hz,LED,500,500);
+				N: XIC(LED)OTE(IBN_DHF.OUTPUTS[0].1);
+				RC: "Flasher 1 sec";
+				N: XIO(TON_Flasher_1_sec.DN)[TON(TON_Flasher_1_sec,?,?) ,GE(TON_Flasher_1_sec.ACC,500) OTE(Flasher_1_sec) ];
+		END_ROUTINE
+
+		ROUTINE R020_FiveStepMethod 
+				RC: "Five rung method";
+				N: NOP();
+				RC: "Start condition";
+				N: XIC(FromSeqLogic)OTE(TriggerPrecondition);
+				N: XIC(EStopOK)XIO(FaultTimeOut)OTE(Safe);
+				N: [XIC(AutoMode) XIC(TriggerPrecondition) ,XIC(ManualMode) XIC(PushButton) ,XIC(Command) ]XIC(Safe)XIO(InPosition)OTE(Command);
+				N: XIC(Sensor)OTE(InPosition);
+				N: XIC(Command)XIO(InPosition)TON(FaultTimer,?,?);
+				N: [XIC(FaultTimer.DN) ,XIC(TimeOutFault) XIO(FaultTimerReset) ]OTE(TimeOutFault);
+		END_ROUTINE
+
+		ROUTINE R021_MissionStatement 
+				RC: "Mission statment$N"
+				    "";
+				N: NOP();
+				N: XIO(ValveMissions.Missions.1)XIO(ValveMissions.Missions.2)OTE(ValveMissions.Missions.0);
+				N: XIC(AutoMode)[XIC(ValveMissions.Missions.0) XIC(ValveMissions.Start.1) ,XIC(ValveMissions.Missions.1) ]XIO(ValveMissions.Done.1)OTE(ValveMissions.Missions.1);
+				N: XIC(AutoMode)[XIC(ValveMissions.Missions.0) XIO(ValveMissions.Done.1) XIC(ValveMissions.Start.2) ,XIC(ValveMissions.Missions.1) ]XIO(ValveMissions.Done.2)OTE(ValveMissions.Missions.1);
+		END_ROUTINE
+
+		ROUTINE R022_Mode 
+				N: [XIC(AutoModePB) ,XIC(AutoMode) ]XIO(ManualModePB)OTE(AutoMode);
+				N: XIO(AutoMode)OTE(ManualMode);
+		END_ROUTINE
+
+		ROUTINE R023_Mode (Description := "Three mode selection$N")
+				N: [XIC(Mode.0) XIC(ModePB.1) ,XIC(Mode.1) ]XIO(ModePB.2)XIO(ModePB.3)XIO(ModePB.0)OTE(Mode.1);
+				N: [XIC(Mode.0) XIC(ModePB.2) ,XIC(Mode.2) ]XIO(ModePB.1)XIO(ModePB.3)XIO(ModePB.0)OTE(Mode.2);
+				N: [XIC(Mode.0) XIC(ModePB.3) ,XIC(Mode.3) ]XIO(ModePB.1)XIO(ModePB.2)XIO(ModePB.0)OTE(Mode.3);
+				RC: "OFF ";
+				N: XIO(Mode.1)XIO(Mode.2)XIO(Mode.3)OTE(Mode.0);
+		END_ROUTINE
+
+		CHILD_PROGRAMS
+		END_CHILD_PROGRAMS
+
+	END_PROGRAM
 
 	PROGRAM MainProgram (MAIN := "R000_MainRoutine",
 	                     MODE := 0,
@@ -179,11 +477,10 @@ CONTROLLER CPU_01 (Description := "CODE TESTING 20250421",
 			'OUTPUT PARAMETER:   None
 			'
 			'*****************************************************************************************************************
-			'VERSION	       DATE           COMMENT/ CHANGED BY
-			'V0.00		04.22.2025		  IMS
-			'| DATE       | REMARKS     |
-			'| ---------- | ----------- |
-			'| 2025-04-22 | NEW PROJECT |
+			'| VERSION |    DATE    |       COMMENT       | CHANGE BY |
+			'|---------|:----------:|:-------------------:|-----------|
+			'| 0.00    | 2025-04-22 |     NEW PROJECT     |           |
+			'| 0.01    | 2025-04-26 | Add design patterns |           |
 			'*****************************************************************************************************************)
 			'
 			'
@@ -199,12 +496,12 @@ CONTROLLER CPU_01 (Description := "CODE TESTING 20250421",
 		ST_ROUTINE R001_InitializeConstants 
 			'// General information
 			'
-			'IBN_DHF.Always_OFF := 0;
-			'IBN_DHF.Always_ON := 1;
+			'IBN_DHF.ALWAYS_OFF := 0;
+			'IBN_DHF.ALWAYS_ON := 1;
 		END_ST_ROUTINE
 
 		ROUTINE R002_General 
-				N: XIC(IBN_DHF.SerialNumber[0].0)GSV(WallClockTime,,LocalDateTime,DateTimeFromPLC[0]);
+				N: XIC(IBN_DHF.SERIAL_NUMBER[0].1)GSV(WallClockTime,,LocalDateTime,DateTimeFromPLC[0]);
 		END_ROUTINE
 
 		ROUTINE R003_Template 
@@ -224,24 +521,24 @@ CONTROLLER CPU_01 (Description := "CODE TESTING 20250421",
 				    "$N"
 				    "Used for equations that need PI as opposed to typing the number.$N"
 				    "";
-				N: XIC(IBN_DHF.TODO)OTE(IBN_DHF.SerialNumber[2].0);
+				N: XIC(IBN_DHF.TODO)OTE(IBN_DHF.SERIAL_NUMBER[2].0);
 				RC: "Defined flags";
-				N: OTU(IBN_DHF.Always_OFF)OTL(IBN_DHF.Always_ON);
+				N: OTU(IBN_DHF.ALWAYS_OFF)OTL(IBN_DHF.ALWAYS_ON);
 		END_ROUTINE
 
 		ROUTINE R040_ValveControl 
-				N: XIC(IBN_DHF.SerialNumber[0].0)OTE(IBN_DHF.SerialNumber[1].0);
-				N: XIC(IBN_DHF.SerialNumber[0].1)MOVE(1,R6[3].POS);
+				N: XIC(IBN_DHF.SERIAL_NUMBER[0].0)OTE(IBN_DHF.SERIAL_NUMBER[1].0);
+				N: XIC(IBN_DHF.SERIAL_NUMBER[0].1)MOVE(1,R6[3].POS);
 				RC: "$N"
 				    "sequencer for sterile water rinse steps$N"
 				    "$N"
 				    "Last drain (step 3) is now 90sec. (was 60)$N"
 				    "Since the filler drain valve are pulsing with pressure DR5.2.2, mor time is needed to get empty";
-				N: XIC(IBN_DHF.Debug)[SQO(SterileWaterRinse_Array[0,0],-1,SterileWaterRinse_Bits[0],R6[3],?,?) ,SQO(SterileWaterRinse_Array[1,0],-1,SterileWaterRinse_Bits[1],R6[3],?,?) ];
-				N: XIC(SterileWaterRinse_Bits[0].0)OTE(IBN_DHF.SerialNumber[1].1);
-				N: XIC(SterileWaterRinse_Bits[0].1)OTE(IBN_DHF.SerialNumber[1].2);
-				N: XIC(SterileWaterRinse_Bits[0].2)OTE(IBN_DHF.SerialNumber[1].3);
-				N: XIC(SterileWaterRinse_Bits[0].3)OTE(IBN_DHF.SerialNumber[1].4);
+				N: XIC(IBN_DHF.DEBUG)[SQO(SterileWaterRinse_Array[0,0],-1,SterileWaterRinse_Bits[0],R6[3],?,?) ,SQO(SterileWaterRinse_Array[1,0],-1,SterileWaterRinse_Bits[1],R6[3],?,?) ];
+				N: XIC(SterileWaterRinse_Bits[0].0)OTE(IBN_DHF.SERIAL_NUMBER[1].1);
+				N: XIC(SterileWaterRinse_Bits[0].1)OTE(IBN_DHF.SERIAL_NUMBER[1].2);
+				N: XIC(SterileWaterRinse_Bits[0].2)OTE(IBN_DHF.SERIAL_NUMBER[1].3);
+				N: XIC(SterileWaterRinse_Bits[0].3)OTE(IBN_DHF.SERIAL_NUMBER[1].4);
 		END_ROUTINE
 
 		CHILD_PROGRAMS
@@ -256,59 +553,14 @@ CONTROLLER CPU_01 (Description := "CODE TESTING 20250421",
 	               DisableUpdateOutputs := No,
 	               InhibitTask := No)
 			MainProgram;
+			AlarmManagement;
+			DesignPatters;
 	END_TASK
-
-CONFIG ASCII(XONXOFFEnable := 0,
-	             DeleteMode := 0,
-	             EchoMode := 0,
-	             TerminationChars := 65293,
-	             AppendChars := 2573,
-	             BufferSize := 82) END_CONFIG
 
 CONFIG CST(SystemTimeMasterID := 0) END_CONFIG
 
-CONFIG DF1(DuplicateDetection := 1,
-	           ErrorDetection := BCC Error,
-	           EmbeddedResponseEnable := 0,
-	           DF1Mode := Pt to Pt,
-	           ACKTimeout := 50,
-	           NAKReceiveLimit := 3,
-	           ENQTransmitLimit := 3,
-	           TransmitRetries := 3,
-	           StationAddress := 0,
-	           ReplyMessageWait := 5,
-	           PollingMode := 1,
-	           MasterMessageTransmit := 0,
-	           NormalPollNodeFile := "<NA>",
-	           NormalPollGroupSize := 0,
-	           PriorityPollNodeFile := "<NA>",
-	           ActiveStationFile := "<NA>",
-	           SlavePollTimeout := 3000,
-	           EOTSuppression := 0,
-	           MaxStationAddress := 31,
-	           TokenHoldFactor := 1,
-	           EnableStoreFwd := 0,
-	           StoreFwdFile := "<NA>") END_CONFIG
-
-CONFIG SerialPort(BaudRate := 19200,
-	                  Parity := No Parity,
-	                  DataBits := 8 Bits of Data,
-	                  StopBits := 1 Stop Bit,
-	                  ComDriverId := DF1,
-	                  PendingComDriverId := DF1,
-	                  RTSOffDelay := 0,
-	                  RTSSendDelay := 0,
-	                  ControlLine := No Handshake,
-	                  PendingControlLine := No Handshake,
-	                  RemoteModeChangeFlag := 0,
-	                  PendingRemoteModeChangeFlag := 0,
-	                  ModeChangeAttentionChar := 27,
-	                  PendingModeChangeAttentionChar := 27,
-	                  SystemModeCharacter := 83,
-	                  PendingSystemModeCharacter := 83,
-	                  UserModeCharacter := 85,
-	                  PendingUserModeCharacter := 85,
-	                  DCDWaitDelay := 0) END_CONFIG
+CONFIG EthernetPort1(Label := "1",
+	                             PortEnabled := 1) END_CONFIG
 
 CONFIG TimeSynchronize(Priority1 := 128,
 	                                 Priority2 := 128,

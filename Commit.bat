@@ -2,7 +2,7 @@ CD C:\Data\Projects\02 - Control Engineering\02 - Rslogix 5000\02. Code Testing\
 
 
 REM Commit
-git add *.*
+git add --all
 git commit -m "000-First commit"
 git branch -M main
 git remote add origin https://github.com/freagh1970/1001_DesignPatterns.git
